@@ -16,6 +16,7 @@ class jenkins_job_builder::params {
   $jenkins_url = 'http://localhost:8080'
   $version = 'latest'
   $service = 'jenkins'
+  $manage_dependencies = true
 
   case $::osfamily {
     'RedHat', 'Amazon': {
