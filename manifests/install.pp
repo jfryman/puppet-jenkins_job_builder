@@ -8,15 +8,18 @@
 # It installs the pip package and all required dependencies
 #
 class jenkins_job_builder::install(
-  $version = $jenkins_job_builder::version
+  $version             = $jenkins_job_builder::version,
+  $manage_dependencies = true,
 ) {
 
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
-
-  ensure_resource('package', $jenkins_job_builder::params::python_packages, { 'ensure' => 'present' })
-  ensure_resource('package', 'pyyaml', { 'ensure' => 'present', 'provider' => 'pip', 'require' => 'Package[python]'})
+  
+  if $manage_dependencies {
+    ensure_resource('package', $jenkins_job_builder::params::python_packages, { 'ensure' => 'present' })
+    ensure_resource('package', 'pyyaml', { 'ensure' => 'present', 'provider' => 'pip', 'require' => 'Package[python]'})
+  }
 
   package { 'jenkins-job-builder':
     ensure   => $version,
