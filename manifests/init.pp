@@ -45,6 +45,7 @@ class jenkins_job_builder(
   $user = $jenkins_job_builder::params::user,
   $password = $jenkins_job_builder::params::password,
   $hipchat_token = $jenkins_job_builder::params::hipchat_token,
+  $manage_dependencies = $jenkins_job_builder::params::manage_dependencies,
   $jenkins_url = $jenkins_job_builder::params::jenkins_url,
   $service = 'jenkins'
 ) inherits jenkins_job_builder::params {
@@ -58,6 +59,8 @@ class jenkins_job_builder(
   validate_string($version)
 
   class {'jenkins_job_builder::install': } ->
-  class {'jenkins_job_builder::config': } ->
+  class {'jenkins_job_builder::config': 
+    manage_dependencies => $manage_dependencies,
+  } ->
   Class['jenkins_job_builder']
 }
