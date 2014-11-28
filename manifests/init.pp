@@ -58,9 +58,9 @@ class jenkins_job_builder(
   validate_string($jenkins_url)
   validate_string($version)
 
-  class {'jenkins_job_builder::install': } ->
-  class {'jenkins_job_builder::config': 
+  class {'jenkins_job_builder::install': 
     manage_dependencies => $manage_dependencies,
   } ->
+  class {'jenkins_job_builder::config': } ->
   Class['jenkins_job_builder']
 }
